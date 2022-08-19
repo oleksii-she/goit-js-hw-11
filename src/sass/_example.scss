@@ -9,14 +9,22 @@
 a {
   text-decoration: none;
 }
+:hover.logo {
+  fill: aquamarine;
+}
+.logo_link {
+  &:hover {
+    color: aquamarine;
+  }
+}
+
 body {
   background-color: azure;
 }
-.logo {
-}
+
 .Header {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   background-color: blue;
   display: flex;
   justify-content: center;
@@ -42,10 +50,10 @@ body {
   box-shadow: 0px 8px 20px rgb(0 0 0 / 50%);
 }
 .search-box {
+  margin-left: 50px;
   position: relative;
   display: flex;
   align-items: center;
-  margin-left: 40px;
 }
 .search_btn {
   position: absolute;
@@ -58,4 +66,20 @@ body {
 
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    fill: red;
+  }
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  &:hover {
+    fill: blue;
+    transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
