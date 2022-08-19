@@ -8,21 +8,36 @@
   padding: 16px;
 }
 
-.example code {
-  font-family: monospace;
-  font-size: 16px;
-  font-weight: 700;
-  background-color: #ff6b0a;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 2px;
+.conteiner {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: blue;
+}
+.search-form {
+  display: flex;
+  justify-content: center;
 }
 
-.example .background {
-  height: 240px;
-  // ❗️❗️❗️ The path to images from a SASS file
-  // is always the same as from the css folder.
-  background-image: url('../images/logo.png');
-  background-size: cover;
-  background-position: center;
+.input-search {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  outline: none;
+  padding-left: 5px;
+  border-radius: 8px;
+}
+.search-box {
+  position: relative;
+}
+.search_btn {
+  position: absolute;
+  left: 88%;
+  top: 5%;
+
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
