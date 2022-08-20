@@ -74,16 +74,38 @@ a {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 15px;
 }
-.info {
-  display: flex;
-  justify-content: center;
+.photo-card {
+  position: relative;
+  cursor: pointer;
+
+  margin-left: 15px;
+  margin-bottom: 15px;
 }
+.info {
+  color: #fff;
+  background: linear-gradient(0deg, #0009 0, #0000);
+  padding: 10px 30px 8px 30px;
+  font-size: 14px;
+  transition: all 0.25s;
+  display: flex;
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+
+  opacity: 0;
+  .photo-card:hover & {
+    opacity: 1;
+  }
+}
+
 .info-item {
-  margin-right: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }

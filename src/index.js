@@ -17,16 +17,16 @@ function creatGallaryMarkup({ data: { hits } }) {
     <img src="${el.webformatURL}" alt="${el.tags}" loading="lazy"   width="640"   height="480"/>
     <div class="info">
       <p class="info-item">
-        <b>Likes: ${el.likes}</b>
+        <b>Likes</b><span>${el.likes}</span>
       </p>
       <p class="info-item">
-        <b>Views: ${el.views}</b>
+        <b>Views</b><span>${el.views}</span>
       </p>
       <p class="info-item">
-        <b>Comments: ${el.comments}</b>
+        <b>Comments</b><span>${el.comments}</span>
       </p>
       <p class="info-item">
-        <b>Downloads: ${el.downloads}</b>
+        <b>Downloads</b><span>${el.downloads}</span>
       </p>
     </div>
   </div>`;
