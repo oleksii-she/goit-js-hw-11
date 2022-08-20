@@ -1,2 +1,0 @@
-fetch("https://restcountries.".concat("https://pixabay.com/api/","?key=").concat("29380167-bc7f7d83fdfa795e7dcbffaab","&q=").concat("yellow+flower","&image_type=").concat("photo","&orientation=").concat("horizontal","&safesearch=").concat("true","/v3.1/name/name")).then((function(t){if(console.log(t),404===t.status)throw new Error("Error");return t.json()}));
-//# sourceMappingURL=index.63df74f5.js.map
