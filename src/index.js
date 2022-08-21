@@ -2,6 +2,11 @@ import { pixabayApi } from './fetchCountries';
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
+const example = document.querySelector('.example');
+const loadMore = document.querySelector('.load-more');
+
+let page = 1;
+
 function onSubmitSearchImg(e) {
   e.preventDefault();
 
@@ -10,11 +15,15 @@ function onSubmitSearchImg(e) {
   pixabayApi(searchValue).then(data => creatGallaryMarkup(data));
 }
 
-function creatGallaryMarkup({ data: { hits } }) {
+function creatGallaryMarkup({ data, data: { hits } }) {
+  console.log(data.hits);
+  const markupBtn =
+    '<button type="button" class="load-more">Load more</button>';
   const markup = hits
+
     .map(el => {
       return `<div class="photo-card">
-    <img src="${el.webformatURL}" alt="${el.tags}" loading="lazy"   width="640"   height="480"/>
+    <img src="${el.webformatURL}" alt="${el.tags}" loading="lazy"/>
     <div class="info">
       <p class="info-item">
         <b>Likes</b><span>${el.likes}</span>
@@ -29,10 +38,20 @@ function creatGallaryMarkup({ data: { hits } }) {
         <b>Downloads</b><span>${el.downloads}</span>
       </p>
     </div>
-  </div>`;
+  </div>
+  `;
     })
     .join('');
 
-  gallery.innerHTML = markup;
+  gallery.insertAdjacentHTML('beforeend', markup);
+  //   example.insertAdjacentHTML('afterend', markupBtn);
 }
+function onclickPage(e) {
+  pixabayApi((page += 1)).then(data => {
+    const markup = creatGallaryMarkup(data);
+    gallery.insertAdjacentHTML('beforeend', markup);
+  });
+}
+
 searchForm.addEventListener('submit', onSubmitSearchImg);
+loadMore.addEventListener('click', onclickPage);
