@@ -15,8 +15,7 @@ function onSubmitSearchImg(e) {
   pixabayApi(searchValue).then(data => creatGallaryMarkup(data));
 }
 
-function creatGallaryMarkup({ data, data: { hits } }) {
-  console.log(data.hits);
+function creatGallaryMarkup({ data: { hits } }) {
   const markupBtn =
     '<button type="button" class="load-more">Load more</button>';
   const markup = hits
@@ -44,11 +43,10 @@ function creatGallaryMarkup({ data, data: { hits } }) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-  //   example.insertAdjacentHTML('afterend', markupBtn);
 }
 function onclickPage(e) {
   pixabayApi((page += 1)).then(data => {
-    const markup = creatGallaryMarkup(data);
+    const markup = creatGallaryMarkup({ data: { hits } });
     gallery.insertAdjacentHTML('beforeend', markup);
   });
 }
