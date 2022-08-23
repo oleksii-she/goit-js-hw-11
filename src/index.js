@@ -10,11 +10,19 @@ const newApiService = new NewsPixabayApi();
 function onSubmitSearchImg(e) {
   e.preventDefault();
 
-  newApiService.query = e.currentTarget.elements.searchQuery.value.trim();
-  newApiService.ressetPage();
-  newApiService.fetchPixabayApiService().then(data => {
-    clearGalleryList(), creatGallaryMarkup(data);
-  });
+  const searchValue = e.currentTarget.elements.searchQuery.value.trim();
+  if (searchValue) {
+    newApiService.query = searchValue;
+    newApiService.ressetPage();
+    newApiService.fetchPixabayApiService().then(data => {
+      clearGalleryList();
+      creatGallaryMarkup(data);
+      loadMore.classList.remove('is-hidden');
+    });
+  } else {
+    clearGalleryList();
+  }
+
   // pixabayApi(searchValue).then(data => creatGallaryMarkup(data));
 }
 
@@ -45,11 +53,11 @@ function creatGallaryMarkup(obj) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-loadMore.addEventListener('click', onclickPage);
+loadMore.addEventListener('click', onClickPage);
 searchForm.addEventListener('submit', onSubmitSearchImg);
 
-function onclickPage(e) {
-  newApiService.fetchPixabayApiService().then(data => creatGallaryMarkup(data));
+function onClickPage(e) {
+  newApiService.fetchPixabayApiService().then(creatGallaryMarkup);
 }
 
 function clearGalleryList() {
