@@ -1,6 +1,8 @@
 export { NewsPixabayApi };
 const axios = require('axios').default;
 
+const loadMore = document.querySelector('.load-more');
+
 class NewsPixabayApi {
   constructor() {
     this.searchValue = '';
@@ -16,6 +18,13 @@ class NewsPixabayApi {
       .then(data => {
         this.incrementPage();
         return data.data.hits;
+      })
+      .catch(err => {
+        if (res.status === 400) {
+          console.log('sdasda');
+          loadMore.classList.add('is-hidden');
+          console.log(err);
+        }
       });
   }
   ressetPage() {

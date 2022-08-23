@@ -17,6 +17,7 @@ function onSubmitSearchImg(e) {
     newApiService.fetchPixabayApiService().then(data => {
       clearGalleryList();
       creatGallaryMarkup(data);
+
       loadMore.classList.remove('is-hidden');
     });
   } else {
@@ -30,7 +31,7 @@ function creatGallaryMarkup(obj) {
   const markup = obj
     .map(el => {
       return `<div class="photo-card">
-  <img src="${el.webformatURL}" alt="${el.tags}" loading="lazy"/>
+  <img src="${el.webformatURL}" alt="${el.tags}" loading="lazy" class="width_img"/>
   <div class="info">
     <p class="info-item">
       <b>Likes</b><span>${el.likes}</span>
@@ -57,9 +58,24 @@ loadMore.addEventListener('click', onClickPage);
 searchForm.addEventListener('submit', onSubmitSearchImg);
 
 function onClickPage(e) {
-  newApiService.fetchPixabayApiService().then(creatGallaryMarkup);
+  newApiService
+    .fetchPixabayApiService()
+    .then(creatGallaryMarkup)
+    .catch(err => {
+      console.log(err);
+      loadMore.classList.add('is-hidden');
+    });
 }
 
 function clearGalleryList() {
   gallery.innerHTML = '';
 }
+
+// const { height: cardHeight } = document
+//   .querySelector('.gallery')
+//   .firstElementChild.getBoundingClientRect();
+
+// window.scrollBy({
+//   top: cardHeight * 5,
+//   behavior: 'smooth',
+// });
