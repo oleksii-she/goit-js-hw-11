@@ -78,9 +78,12 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  width: 100%;
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 10px;
+  padding-bottom: 0px;
 }
 .photo-card {
   position: relative;
@@ -88,6 +91,7 @@ a {
   margin-bottom: 10px;
   cursor: pointer;
   border-radius: 4px;
+
   // border-radius: 0px 0px 4px 4px;
   // background-color: #ffffff;
   // -webkit-box-shadow: 0px 1px 3px rgb(0 0 0 / 12%), 0px 1px 1px rgb(0 0 0 / 14%),
