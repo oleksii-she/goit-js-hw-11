@@ -72,15 +72,6 @@ function clearGalleryList() {
   gallery.innerHTML = '';
 }
 
-// const { height: cardHeight } = document
-//   .querySelector('.gallery')
-//   .firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 5,
-//   behavior: 'smooth',
-// });
-
 const options = {
   root: null,
   rootMargin: '300px',
@@ -91,21 +82,23 @@ const newApiService = new NewsPixabayApi();
 const observer = new IntersectionObserver(updateList, options);
 
 function updateList(entries) {
-  entries.forEach(entry => console.log(entry));
-
-  newApiService
-    .fetchPixabayApiService()
-    .then(createGallaryMarkup)
-    .catch(err => {
-      console.log(err);
-    });
+  entries.forEach(entry => {
+    if (entry.isIntersecting === true) {
+      newApiService
+        .fetchPixabayApiService()
+        .then(createGallaryMarkup)
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  });
 }
 
-// const callback = function (updateList, observer) {
-//   newApiService
-//     .fetchPixabayApiService()
-//     .then(createGallaryMarkup)
-//     .catch(err => {
-//       console.log(err);
-//     });
-// };
+// const { height: cardHeight } = document
+//   .querySelector('.gallery')
+//   .firstElementChild.getBoundingClientRect();
+
+// window.scrollBy({
+//   top: cardHeight * 5,
+//   behavior: 'smooth',
+// });
