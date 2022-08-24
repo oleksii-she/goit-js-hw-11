@@ -7,9 +7,9 @@ import { NewsPixabayApi } from './fetchCountries';
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const example = document.querySelector('.example');
-const loadMore = document.querySelector('.load-more');
+const guard = document.querySelector('.js-guard');
 
-const newApiService = new NewsPixabayApi();
+// const loadMore = document.querySelector('.load-more');
 
 function onSubmitSearchImg(e) {
   e.preventDefault();
@@ -22,7 +22,7 @@ function onSubmitSearchImg(e) {
       clearGalleryList();
       createGallaryMarkup(data);
 
-      loadMore.classList.remove('is-hidden');
+      // loadMore.classList.remove('is-hidden');
     });
   } else {
     clearGalleryList();
@@ -55,33 +55,57 @@ function createGallaryMarkup(obj) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+  observer.observe(guard);
   let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
   });
 }
 
-loadMore.addEventListener('click', onClickPage);
+// loadMore.addEventListener('click', onClickPage);
 searchForm.addEventListener('submit', onSubmitSearchImg);
 
-function onClickPage(e) {
-  newApiService
-    .fetchPixabayApiService()
-    .then(createGallaryMarkup)
-    .catch(err => {
-      console.log(err);
-      loadMore.classList.add('is-hidden');
-    });
-}
+// function onClickPage(e) {
+
+// }
 
 function clearGalleryList() {
   gallery.innerHTML = '';
 }
 
-const { height: cardHeight } = document
-  .querySelector('.gallery')
-  .firstElementChild.getBoundingClientRect();
+// const { height: cardHeight } = document
+//   .querySelector('.gallery')
+//   .firstElementChild.getBoundingClientRect();
 
-window.scrollBy({
-  top: cardHeight * 5,
-  behavior: 'smooth',
-});
+// window.scrollBy({
+//   top: cardHeight * 5,
+//   behavior: 'smooth',
+// });
+
+const options = {
+  root: null,
+  rootMargin: '300px',
+  threshold: 1,
+};
+const newApiService = new NewsPixabayApi();
+
+const observer = new IntersectionObserver(updateList, options);
+
+function updateList(entries) {
+  entries.forEach(entry => console.log(entry));
+
+  newApiService
+    .fetchPixabayApiService()
+    .then(createGallaryMarkup)
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+// const callback = function (updateList, observer) {
+//   newApiService
+//     .fetchPixabayApiService()
+//     .then(createGallaryMarkup)
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
