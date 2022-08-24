@@ -21,8 +21,6 @@ class NewsPixabayApi {
       })
       .catch(err => {
         if (res.status === 400) {
-          console.log('sdasda');
-          loadMore.classList.add('is-hidden');
           console.log(err);
         }
       });
