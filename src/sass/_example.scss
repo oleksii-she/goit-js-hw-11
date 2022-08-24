@@ -22,11 +22,11 @@ a {
   outline: none;
   padding-left: 10px;
   border-radius: 8px;
-  width: 250px;
+  width: 300px;
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
-  height: 30px;
+  height: 35px;
   background-color: azure;
   &::placeholder {
     font-weight: 600;
@@ -36,7 +36,6 @@ a {
   box-shadow: 0px 8px 20px rgb(0 0 0 / 50%);
 }
 .search-box {
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -46,6 +45,10 @@ a {
   padding: 10px 3px 20px;
   margin: auto;
 }
+.search-form {
+  position: relative;
+  margin-left: 40px;
+}
 .search_btn {
   position: absolute;
   left: 88%;
@@ -54,7 +57,7 @@ a {
   height: 20px;
   background-color: transparent;
   border: none;
-
+  bottom: 15%;
   align-items: center;
   justify-content: center;
 
