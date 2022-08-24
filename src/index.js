@@ -74,7 +74,7 @@ function clearGalleryList() {
 
 const options = {
   root: null,
-  rootMargin: '300px',
+  rootMargin: '500px',
   threshold: 1,
 };
 const newApiService = new NewsPixabayApi();
@@ -86,6 +86,8 @@ function updateList(entries) {
     if (entry.isIntersecting === true) {
       newApiService
         .fetchPixabayApiService()
+        .lightbox.refresh()
+
         .then(createGallaryMarkup)
         .catch(err => {
           console.log(err);

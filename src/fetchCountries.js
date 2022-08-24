@@ -9,10 +9,10 @@ class NewsPixabayApi {
     this.page = 1;
   }
 
-  fetchPixabayApiService() {
-    return axios
+  async fetchPixabayApiService() {
+    return await axios
       .get(
-        `https://pixabay.com/api/?image_type=photo&key=29380167-bc7f7d83fdfa795e7dcbffaab&q=${this.searchValue}&orientation=horizontal&safesearch=true&min_height=426&per_page=42&page=${this.page}`
+        `https://pixabay.com/api/?image_type=photo&key=29380167-bc7f7d83fdfa795e7dcbffaab&q=${this.searchValue}&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
       )
       .then(res => res)
       .then(data => {
