@@ -86,12 +86,12 @@ function updateList(entries) {
     if (entry.isIntersecting === true) {
       newApiService
         .fetchPixabayApiService()
-        .lightbox.refresh()
 
         .then(createGallaryMarkup)
         .catch(err => {
           console.log(err);
         });
+      lightbox.refresh();
     }
   });
 }
