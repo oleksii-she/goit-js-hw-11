@@ -1,5 +1,5 @@
 import SimpleLightbox from 'simplelightbox';
-
+import Notiflix from 'notiflix';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { NewsPixabayApi } from './fetchCountries';
@@ -11,26 +11,32 @@ const guard = document.querySelector('.js-guard');
 
 // const loadMore = document.querySelector('.load-more');
 
-function onSubmitSearchImg(e) {
+async function onSubmitSearchImg(e) {
   e.preventDefault();
+  try {
+    const searchValue = e.currentTarget.elements.searchQuery.value.trim();
+    if (searchValue.length >= 2) {
+      newApiService.query = searchValue;
+      newApiService.ressetPage();
+      const data = await newApiService.fetchPixabayApiService();
 
-  const searchValue = e.currentTarget.elements.searchQuery.value.trim();
-  if (searchValue) {
-    newApiService.query = searchValue;
-    newApiService.ressetPage();
-    newApiService.fetchPixabayApiService().then(data => {
       clearGalleryList();
       createGallaryMarkup(data);
-
-      // loadMore.classList.remove('is-hidden');
-    });
-  } else {
-    clearGalleryList();
+    } else if (newApiService.query === '') {
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+    } else if (subscription === 'premium') {
+      cost = 500;
+    } else {
+      console.log('Invalid subscription type');
+    }
+  } catch (error) {
+    Notiflix.Notify.failure('Oops, there is no country with that name');
   }
 }
-function crateBigImgmarkun() {}
-function createGallaryMarkup(obj) {
-  const markup = obj
+
+function createGallaryMarkup(data) {
+  // console.log(totalHits);
+  const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
       <a  href="${el.largeImageURL}">
@@ -53,8 +59,9 @@ function createGallaryMarkup(obj) {
   `;
     })
     .join('');
-
+  Notiflix.Notify.success('Hooray! We found totalHits images.');
   gallery.insertAdjacentHTML('beforeend', markup);
+
   observer.observe(guard);
   let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
@@ -78,20 +85,21 @@ const options = {
   threshold: 1,
 };
 const newApiService = new NewsPixabayApi();
-
+console.log();
 const observer = new IntersectionObserver(updateList, options);
 
-function updateList(entries) {
+async function updateList(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting === true) {
       newApiService
         .fetchPixabayApiService()
 
-        .then(createGallaryMarkup)
+        .then(data => {
+          createGallaryMarkup(data);
+        })
         .catch(err => {
           console.log(err);
         });
-      lightbox.refresh();
     }
   });
 }
