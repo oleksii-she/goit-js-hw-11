@@ -52,6 +52,7 @@ async function onSubmitSearchImg(e) {
   }
 }
 function createGallaryMarkup(data) {
+  const lightbox = new SimpleLightbox('.gallery a', {});
   const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
@@ -75,9 +76,8 @@ function createGallaryMarkup(data) {
   `;
     })
     .join('');
-
+  lightbox.refresh();
   gallery.insertAdjacentHTML('beforeend', markup);
-  let lightbox = new SimpleLightbox('.gallery a', {});
 
   observer.observe(guard);
 }
