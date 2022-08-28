@@ -4,7 +4,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { NewsPixabayApi } from './fetchCountries';
 
 const searchForm = document.querySelector('#search-form');
-const gallery = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery, a');
 const guard = document.querySelector('.js-guard');
 const scrollBtn = document.querySelector('.is-show_btn__hide');
 // const loadMore = document.querySelector('.load-more');
@@ -52,7 +52,6 @@ async function onSubmitSearchImg(e) {
   }
 }
 function createGallaryMarkup(data) {
-  const lightbox = new SimpleLightbox('.gallery a', {});
   const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
@@ -76,9 +75,11 @@ function createGallaryMarkup(data) {
   `;
     })
     .join('');
-  lightbox.refresh();
-  gallery.insertAdjacentHTML('beforeend', markup);
 
+  gallery.insertAdjacentHTML('beforeend', markup);
+  let lightbox = new SimpleLightbox('.gallery a', {});
+
+  lightbox.refresh();
   observer.observe(guard);
 }
 
