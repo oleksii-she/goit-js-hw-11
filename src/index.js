@@ -77,7 +77,7 @@ function createGallaryMarkup(data) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-  lightbox = new SimpleLightbox('.gallery a', {}).refresh();
+  lightbox = new SimpleLightbox('.gallery a', {});
 
   observer.observe(guard);
 }
