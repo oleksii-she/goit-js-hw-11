@@ -24,7 +24,7 @@ class NewsPixabayApi {
     this.page = 1;
   }
   incrementPage() {
-    this.page += 1;
+    return (this.page += 1);
   }
 
   get query() {

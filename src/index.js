@@ -1,7 +1,6 @@
-import SimpleLightbox from 'simplelightbox';
 import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
 import { NewsPixabayApi } from './fetchCountries';
 
 const searchForm = document.querySelector('#search-form');
@@ -54,6 +53,7 @@ async function onSubmitSearchImg(e) {
   }
 }
 function createGallaryMarkup(data) {
+  console.log(data.data);
   const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
@@ -79,11 +79,10 @@ function createGallaryMarkup(data) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-
-  observer.observe(guard);
   let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
-  }).refresh();
+  });
+  observer.observe(guard);
 }
 
 // loadMore.addEventListener('click', onClickPage);
@@ -107,13 +106,19 @@ console.log();
 const observer = new IntersectionObserver(updateList, options);
 
 async function loadMore() {
-  const perPage = 1;
   newApiService.incrementPage();
+
   const data = await newApiService.fetchPixabayApiService();
+  const totalHits = data.data.totalHits;
+
+  if (Math.round(totalHits / 40) < newApiService.page + 1) {
+    return Notiflix.Notify.warning(
+      'We are sorry, but you have reached the end of search results.'
+    );
+  }
 
   createGallaryMarkup(data);
 }
-
 function updateList(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting === true) {
