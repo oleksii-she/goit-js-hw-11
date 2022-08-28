@@ -77,7 +77,7 @@ function createGallaryMarkup(data) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-  let lightbox = new SimpleLightbox('.gallery a', {});
+  lightbox = new SimpleLightbox('.gallery a', {}).refresh();
 
   observer.observe(guard);
 }
@@ -115,6 +115,7 @@ async function loadMore() {
 function updateList(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting === true) {
+      lightbox.destroy();
       loadMore();
     }
   });
