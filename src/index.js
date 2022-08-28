@@ -5,7 +5,6 @@ import { NewsPixabayApi } from './fetchCountries';
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
-const example = document.querySelector('.example');
 const guard = document.querySelector('.js-guard');
 const scrollBtn = document.querySelector('.is-show_btn__hide');
 // const loadMore = document.querySelector('.load-more');
@@ -53,7 +52,6 @@ async function onSubmitSearchImg(e) {
   }
 }
 function createGallaryMarkup(data) {
-  console.log(data.data);
   const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
@@ -79,18 +77,13 @@ function createGallaryMarkup(data) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
-  let lightbox = new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-  });
+  let lightbox = new SimpleLightbox('.gallery a', {});
+
   observer.observe(guard);
 }
 
 // loadMore.addEventListener('click', onClickPage);
 searchForm.addEventListener('submit', onSubmitSearchImg);
-
-// function onClickPage(e) {
-
-// }
 
 function clearGalleryList() {
   gallery.innerHTML = '';
@@ -102,7 +95,7 @@ const options = {
   threshold: 1,
 };
 const newApiService = new NewsPixabayApi();
-console.log();
+
 const observer = new IntersectionObserver(updateList, options);
 
 async function loadMore() {
