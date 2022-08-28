@@ -8,34 +8,52 @@ const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const example = document.querySelector('.example');
 const guard = document.querySelector('.js-guard');
-
+const scrollBtn = document.querySelector('.is-show_btn__hide');
 // const loadMore = document.querySelector('.load-more');
+
+window.onscroll = () => {
+  if (window.scrollY > 700) {
+    scrollBtn.classList.remove('is-show_btn__hide');
+  } else if (window.scrollY < 700) {
+    scrollBtn.classList.add('is-show_btn__hide');
+  }
+};
+scrollBtn.onclick = () => {
+  window.scrollTo(0, 0);
+};
 
 async function onSubmitSearchImg(e) {
   e.preventDefault();
   try {
     const searchValue = e.currentTarget.elements.searchQuery.value.trim();
-    if (searchValue.length >= 2) {
-      newApiService.query = searchValue;
-      newApiService.ressetPage();
-      const data = await newApiService.fetchPixabayApiService();
-
-      clearGalleryList();
-      createGallaryMarkup(data);
-    } else if (newApiService.query === '') {
-      Notiflix.Notify.failure('Oops, there is no country with that name');
-    } else if (subscription === 'premium') {
-      cost = 500;
-    } else {
-      console.log('Invalid subscription type');
+    newApiService.query = searchValue;
+    newApiService.ressetPage();
+    const data = await newApiService.fetchPixabayApiService();
+    if (searchValue === '') {
+      return Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+    } else if (data.data.totalHits === 0) {
+      return Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
     }
+    clearGalleryList();
+
+    Notiflix.Notify.success(`Hooray! We found ${data.data.totalHits} images.`);
+
+    createGallaryMarkup(data);
   } catch (error) {
-    Notiflix.Notify.failure('Oops, there is no country with that name');
+    gallery.innerHTML = `<div class="error">
+    <h2 class="error-title">
+      Sorry, we are having technical problems, please wait with us, we will
+      fix everything quickly, or come back later, thanks!
+    </h2>
+  </div>
+</div>`;
   }
 }
-
 function createGallaryMarkup(data) {
-  // console.log(totalHits);
   const markup = data.data.hits
     .map(el => {
       return `<div class="photo-card">
@@ -59,13 +77,13 @@ function createGallaryMarkup(data) {
   `;
     })
     .join('');
-  Notiflix.Notify.success('Hooray! We found totalHits images.');
+
   gallery.insertAdjacentHTML('beforeend', markup);
 
   observer.observe(guard);
   let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
-  });
+  }).refresh();
 }
 
 // loadMore.addEventListener('click', onClickPage);
@@ -88,27 +106,18 @@ const newApiService = new NewsPixabayApi();
 console.log();
 const observer = new IntersectionObserver(updateList, options);
 
-async function updateList(entries) {
+async function loadMore() {
+  const perPage = 1;
+  newApiService.incrementPage();
+  const data = await newApiService.fetchPixabayApiService();
+
+  createGallaryMarkup(data);
+}
+
+function updateList(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting === true) {
-      newApiService
-        .fetchPixabayApiService()
-
-        .then(data => {
-          createGallaryMarkup(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      loadMore();
     }
   });
 }
-
-// const { height: cardHeight } = document
-//   .querySelector('.gallery')
-//   .firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 5,
-//   behavior: 'smooth',
-// });

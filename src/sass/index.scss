@@ -1,2 +1,6 @@
 @import './common';
 @import './example';
+
+html {
+  scroll-behavior: smooth;
+}

@@ -11,26 +11,14 @@ class NewsPixabayApi {
 
   async fetchPixabayApiService() {
     try {
-      return await axios.get(
+      const response = await axios.get(
         `https://pixabay.com/api/?image_type=photo&key=29380167-bc7f7d83fdfa795e7dcbffaab&q=${this.searchValue}&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
       );
+
+      return response;
     } catch (error) {
-      console.log(error.name);
+      console.error(error.message);
     }
-    // return await axios
-    //   .get(
-    //     `https://pixabay.com/api/?image_type=photo&key=29380167-bc7f7d83fdfa795e7dcbffaab&q=${this.searchValue}&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
-    //   )
-    //   .then(res => res)
-    //   .then(data => {
-    //     this.incrementPage();
-    //     return data.data.hits;
-    //   })
-    //   .catch(err => {
-    //     if (res.status === 400) {
-    //       console.log(err);
-    //     }
-    //   });
   }
   ressetPage() {
     this.page = 1;
@@ -77,3 +65,18 @@ class NewsPixabayApi {
 //     safesearch: 'true',
 //   },
 // };
+
+// return await axios
+//   .get(
+//     `https://pixabay.com/api/?image_type=photo&key=29380167-bc7f7d83fdfa795e7dcbffaab&q=${this.searchValue}&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
+//   )
+//   .then(res => res)
+//   .then(data => {
+//     this.incrementPage();
+//     return data.data.hits;
+//   })
+//   .catch(err => {
+//     if (res.status === 400) {
+//       console.log(err);
+//     }
+//   });
