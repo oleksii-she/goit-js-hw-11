@@ -43,6 +43,7 @@ async function onSubmitSearchImg(e) {
       );
 
       createGallaryMarkup(data);
+      lightbox.refresh();
     }
   } catch (error) {
     gallery.innerHTML = `<div class="error">
@@ -78,7 +79,7 @@ function createGallaryMarkup(data) {
   `;
     })
     .join('');
-  lightbox.refresh();
+
   gallery.insertAdjacentHTML('beforeend', markup);
 
   observer.observe(guard);
@@ -101,23 +102,22 @@ const newApiService = new NewsPixabayApi();
 const observer = new IntersectionObserver(updateList, options);
 
 async function loadMore() {
-  newApiService.incrementPage();
-
   const data = await newApiService.fetchPixabayApiService();
   const totalHits = data.data.totalHits;
 
+  createGallaryMarkup(data);
+  lightbox.refresh();
   if (Math.round(totalHits / 40) < newApiService.page + 1) {
     return Notiflix.Notify.warning(
-      'We are sorry, but you have reached the end of search results.'
+      `We are sorry, but you have reached the end of search results.`
     );
-  } else {
-    createGallaryMarkup(data);
   }
 }
+
 function updateList(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting === true) {
-      lightbox.refresh();
+      newApiService.incrementPage();
       loadMore();
     }
   });
